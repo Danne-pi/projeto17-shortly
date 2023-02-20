@@ -1,15 +1,16 @@
 export default class RepositoryResponse {
     constructor() {
+        
         this.byCondition = function () {
             return this.condition ? 
             {
             code: this.errCode,
             message: this.errMessage,
-            ...this.info
+            info: this.info
             } : {
             code: null,
             message: null,
-            ...this.info
+            info: this.info
             }
         }
 
@@ -25,9 +26,12 @@ export default class RepositoryResponse {
 
         ////////////////////////////////////////
 
-        this.continue =  {
+        this.continue = function () {
+            return {
             code: null,
             message: null,
+            info: this.info
+            }
         }
     }
 }

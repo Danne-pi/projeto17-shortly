@@ -1,6 +1,6 @@
-import { userSchema } from "../models/Users.js";
-import { checkUserAlreadyExists } from "../repository/users.repository.js";
-import schemaValidation from "./generics.js";
+import { loginSchema, userSchema } from "../models/Users.js";
+import { checkUser, checkUserAlreadyExists } from "../repository/users.repository.js";
+import { schemaValidation } from "./generics.js";
 
 export async function userCreateValidation(req, res, next) {
     const user = req.body;
@@ -12,8 +12,24 @@ export async function userCreateValidation(req, res, next) {
     if(code){return res.status(code).send(message)}}
     
     {const { code, message } = await checkUserAlreadyExists(user.name, user.email)
-    if(code){return res.status(code).send(message)}
-    }
+    if(code){return res.status(code).send(message)}}
 
     next();
-  }
+}
+
+
+///////////////////////////////////////////////////////
+
+
+export async function loginValidation(req, res, next) {
+    const user = req.body;
+
+    {const { code, message } = schemaValidation(loginSchema, user)
+    if(code){return res.status(code).send(message)}}
+    
+    {const { code, message, info } = await checkUser(user)
+    if(code){return res.status(code).send(message)}
+    else{res.locals.id = info.id}}
+
+    next();
+}

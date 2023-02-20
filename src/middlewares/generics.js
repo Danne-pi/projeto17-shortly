@@ -1,7 +1,9 @@
-import response from "../repository/response.js";
+import RepositoryResponse from "../repository/response.js";
+import { validateToken } from "../repository/sessions.repository.js";
 
-export default function schemaValidation(schema, data, code){
-    const resp = new response
+
+export function schemaValidation(schema, data, code){
+    const resp = new RepositoryResponse
     const { error } = schema.validate(data, { abortEarly: false });
     
     if (error) {
@@ -25,3 +27,19 @@ export async function idParamSanitization(req, res, next) {
     
     next();
 }
+
+export async function authValidation(req, res, next){
+    const {authorization} = req.headers
+    
+    if(!authorization){return res.sendStatus(401)}
+    
+    if(!authorization.startsWith("Bearer ")){return res.sendStatus(401)}
+    
+    const token = authorization.replace("Bearer ", "")
+    
+    const { code, message, info} = await validateToken(token)
+    if(code){return res.status(code).send(message)}
+    else{res.locals.user_id = info.user_id}
+        
+    next()
+};
