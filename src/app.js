@@ -3,7 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import usersRoutes from "./routes/users.routes.js"
 import urlsRoutes from "./routes/urls.routes.js"
-// import sessionRefresh from "./session.js";
+import sessionRefresh from "./session.js";
 
 dotenv.config();
 const port = process.env.PORT || 5000;
@@ -21,4 +21,4 @@ app.use(urlsRoutes);
 app.listen(port, () => console.log(`Server running in port: ${port}`));
 
 //sessions//
-// sessionRefresh(15, 2.5, 'minutes')
+sessionRefresh(15, 2.5, 'minutes')
