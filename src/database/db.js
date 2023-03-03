@@ -22,6 +22,13 @@ import pg from "pg";
 import dotenv from "dotenv";
 dotenv.config();
 
+pg.types.setTypeParser(20, function(val) {
+    return parseInt(val)
+})
+pg.types.setTypeParser(1700, function(val) {
+    return parseFloat(val)
+})
+
 const { Pool } = pg;
 
 const configDatabase = {
@@ -33,7 +40,5 @@ const configDatabase = {
   }),
 };
 
-const db = new Pool(configDatabase);
+export const connection = new Pool(configDatabase);
 
-
-export default db;

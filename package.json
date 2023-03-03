@@ -6,7 +6,7 @@
   "main": "app.js",
   "scripts": {
     "dev": "npx nodemon ./src/app.js",
-    "start": "node ./src/app.js"
+    "start": "node src/app.js"
   },
   "author": "Nyantis",
   "license": "ISC",
