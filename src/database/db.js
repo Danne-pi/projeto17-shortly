@@ -1,8 +1,7 @@
-import pg from 'pg';
-import dotenv from "dotenv";
+// import pg from 'pg';
+// import dotenv from "dotenv";
 
-dotenv.config();
-const {Pool} = pg;
+// dotenv.config();
 
 // pg.types.setTypeParser(20, function(val) {
 //     return parseInt(val)
@@ -11,9 +10,30 @@ const {Pool} = pg;
 //     return parseFloat(val)
 // })
 
+// const {Pool} = pg;
 
-export const connection = new Pool({
-    connectionString: process.env.DATABASE_URL,
-});
+// export const connection = new Pool({
+//     connectionString: process.env.DATABASE_URL,
+// });
 
 // sudo su -c "pg_dump <nome-da-sua-database> --inserts --no-owner" postgres > dump.sql
+
+import pg from "pg";
+import dotenv from "dotenv";
+dotenv.config();
+
+const { Pool } = pg;
+
+const configDatabase = {
+  connectionString: process.env.DATABASE_URL,
+  ...(process.env.NODE_ENV === "production" && {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  }),
+};
+
+const db = new Pool(configDatabase);
+
+
+export default db;
