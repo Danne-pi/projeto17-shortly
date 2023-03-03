@@ -39,7 +39,7 @@ export async function authValidation(req, res, next){
     
     const { code, message, info} = await validateToken(token)
     if(code){return res.status(code).send(message)}
-    else{res.locals.user_id = info.user_id}
+    else{res.locals.userId = info.userId}
         
     next()
 };

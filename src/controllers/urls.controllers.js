@@ -13,7 +13,7 @@ export async function create(req, res){
 
     const send = {
     id: info.id,
-    short_url: body.shortUrl,} 
+    shortUrl: body.shortUrl,} 
 
     return res.status(201).send(send)
 }

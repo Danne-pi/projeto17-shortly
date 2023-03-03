@@ -18,8 +18,8 @@ export async function create(req, res){
 export async function login(req, res){
     const session = {
     token: uuidv4(),
-    user_id: res.locals.id,
-    created_at: Date.now(),}
+    userId: res.locals.id,
+    createdAt: Date.now(),}
 
     {const { code, message } = await loginUser(session)
     if(code){return res.status(code).send(message)}}
