@@ -33,7 +33,7 @@ async function Refresh(timeout){
     const timeNow = Date.now() - timeout
     let resp = []
     try {
-        resp = await connection.query(`SELECT token FROM sessions WHERE createdAt < $1`, [timeNow]);
+        resp = await connection.query(`SELECT token FROM sessions WHERE "createdAt" < $1`, [timeNow]);
     } catch (error) {
         return console.log(error)
     }
