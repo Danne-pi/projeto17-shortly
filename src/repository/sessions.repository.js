@@ -7,7 +7,7 @@ export async function validateToken(token){
     try{
         const session = await connection.query(`SELECT * FROM sessions WHERE token=$1`, [token])
         
-        if(session.rowCount === 0){return resp.direct(404, "This session doesn't exist")}
+        if(session.rowCount === 0){return resp.direct(401, "This session doesn't exist")}
         
         resp.info = {userId: session.rows[0].userId}
         return resp.continue()
