@@ -67,7 +67,7 @@ export async function accessUrl(shortUrl){
 
 export async function getUrl(_id, customQuery){
     const resp = new RepositoryResponse
-    const user = `"`+customQuery+`"` || `id, "shortUrl", url` 
+    const user = customQuery ? `"${customQuery}"` : `id, "shortUrl", url` 
 
     try {
         const links = await connection.query(`
