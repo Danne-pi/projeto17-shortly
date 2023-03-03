@@ -5,15 +5,15 @@ import { accessUrl, createUrl, deleteUrl, getUrl } from "../repository/urls.repo
 export async function create(req, res){
     const body ={
     url: req.body.url,
-    short_url: nanoid(),
-    user_id: res.locals.user_id,}
+    shortUrl: nanoid(),
+    userId: res.locals.userId,}
 
     const { code, message, info } = await createUrl(body)
     if(code){return res.status(code).send(message)}
 
     const send = {
     id: info.id,
-    short_url: body.short_url,} 
+    short_url: body.shortUrl,} 
 
     return res.status(201).send(send)
 }
@@ -49,11 +49,11 @@ export async function getUrlInfo(req, res) {
 
 
 export async function remove(req, res) {
-    const { id, user_id } = res.locals;
+    const { id, userId } = res.locals;
     
-    {const { code, message, info } = await getUrl(id, 'user_id')
+    {const { code, message, info } = await getUrl(id, 'userId')
     if(code){return res.status(code).send(message)}
-    if(user_id !== info.user_id){return res.status(401).send("You can't delete this link")}}
+    if(userId !== info.userId){return res.status(401).send("You can't delete this link")}}
     
     {const { code, message } = await deleteUrl(id)
     if(code){return res.status(code).send(message)}}

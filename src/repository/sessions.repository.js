@@ -9,7 +9,7 @@ export async function validateToken(token){
         
         if(session.rowCount === 0){return resp.direct(404, "This session doesn't exist")}
         
-        resp.info = {user_id: session.rows[0].user_id}
+        resp.info = {userId: session.rows[0].userId}
         return resp.continue()
 
     } catch(err){return resp.direct(500, err.message)}

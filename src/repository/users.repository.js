@@ -24,13 +24,13 @@ export async function createUser(_user){
 
 export async function loginUser(_session){
     const resp = new RepositoryResponse
-    const {token, user_id, created_at} = _session
+    const {token, userId, createdAt} = _session
 
     try {
         await connection.query(`
-            INSERT INTO sessions (token, user_id, created_at) 
+            INSERT INTO sessions (token, userId, createdAt) 
             VALUES ($1, $2, $3)`, 
-            [token, user_id, created_at])
+            [token, userId, createdAt])
 
         return resp.continue() 
 
@@ -48,14 +48,14 @@ export async function getUser(_id){
         const user = await connection.query(`
             SELECT
             name,
-            links.id as url_id,
-            short_url,
+            links.id as urlId,
+            shortUrl,
             url,
             views
 
             FROM users LEFT JOIN links
             ON
-            links.user_id = $1
+            links.userId = $1
             WHERE users.id = $1
             `, 
             [_id])
@@ -63,12 +63,12 @@ export async function getUser(_id){
             let shortenedUrls = {}
             let visitCount = 0
 
-            if(user.rows[0].url_id){
+            if(user.rows[0].urlId){
               shortenedUrls = user.rows.map(item => {
               visitCount += Number(item.views)
               return {
-                id: item.url_id,
-                short_url: item.short_url,
+                id: item.urlId,
+                shortUrl: item.shortUrl,
                 url: item.url,
                 visitCount: Number(item.views),}})
             } 

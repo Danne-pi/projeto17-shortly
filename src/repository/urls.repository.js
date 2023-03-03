@@ -3,15 +3,15 @@ import RepositoryResponse from "./response.js"
 
 export async function createUrl(_body){
     const resp = new RepositoryResponse
-    const {url, short_url, user_id} = _body
+    const {url, shortUrl, userId} = _body
 
     try {
         const id = await connection.query(`
         INSERT INTO
-          links (url, short_url, user_id)
+          links (url, shortUrl, userId)
         VALUES
           ($1, $2, $3) RETURNING id`, 
-        [url, short_url, user_id])
+        [url, shortUrl, userId])
 
         resp.info = id.rows[0]
         return resp.continue() 
@@ -40,16 +40,16 @@ export async function deleteUrl(_id){
 ////////////////////////////////////////////////////////
 
 
-export async function accessUrl(short_url){
+export async function accessUrl(shortUrl){
     const resp = new RepositoryResponse
 
     try {
         const links = await connection.query(`
           UPDATE links
           SET views = views + 1
-          WHERE short_url = $1
+          WHERE shortUrl = $1
           RETURNING url`,
-          [short_url]
+          [shortUrl]
         );
         
         resp.condition = links.rowCount === 0
@@ -67,7 +67,7 @@ export async function accessUrl(short_url){
 
 export async function getUrl(_id, customQuery){
     const resp = new RepositoryResponse
-    const user = customQuery || "id, short_url, url" 
+    const user = customQuery || "id, shortUrl, url" 
 
     try {
         const links = await connection.query(`

@@ -28,9 +28,9 @@ export async function login(req, res){
 }
 
 export async function profile(req, res){
-    const { user_id } = res.locals
+    const { userId } = res.locals
 
-    const { code, message, info } = await getUser(user_id)
+    const { code, message, info } = await getUser(userId)
     if(code){return res.status(code).send(message)}
 
     return res.status(200).send(info)
