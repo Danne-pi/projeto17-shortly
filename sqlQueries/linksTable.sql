@@ -1,8 +1,0 @@
-CREATE TABLE links (
-    id SERIAL PRIMARY KEY,
-    url TEXT NOT NULL,
-    "shortUrl" TEXT NOT NULL,
-    views BIGINT DEFAULT 0 NOT NULL,
-    "userId" INTEGER NOT NULL REFERENCES users(id),
-    "createdAt" TIMESTAMP DEFAULT NOW() NOT NULL
-);
