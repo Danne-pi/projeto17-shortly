@@ -8,7 +8,7 @@ export async function createUrl(_body){
     try {
         const id = await connection.query(`
         INSERT INTO
-          links (url, shortUrl, userId)
+          links (url, "shortUrl", "userId")
         VALUES
           ($1, $2, $3) RETURNING id`, 
         [url, shortUrl, userId])
@@ -47,7 +47,7 @@ export async function accessUrl(shortUrl){
         const links = await connection.query(`
           UPDATE links
           SET views = views + 1
-          WHERE shortUrl = $1
+          WHERE "shortUrl" = $1
           RETURNING url`,
           [shortUrl]
         );
@@ -67,7 +67,7 @@ export async function accessUrl(shortUrl){
 
 export async function getUrl(_id, customQuery){
     const resp = new RepositoryResponse
-    const user = customQuery || "id, shortUrl, url" 
+    const user = `"${customQuery}"` || `id, "shortUrl", url` 
 
     try {
         const links = await connection.query(`

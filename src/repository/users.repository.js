@@ -28,7 +28,7 @@ export async function loginUser(_session){
 
     try {
         await connection.query(`
-            INSERT INTO sessions (token, userId, createdAt) 
+            INSERT INTO sessions (token, "userId", "createdAt") 
             VALUES ($1, $2, $3)`, 
             [token, userId, createdAt])
 
@@ -48,14 +48,14 @@ export async function getUser(_id){
         const user = await connection.query(`
             SELECT
             name,
-            links.id as urlId,
-            shortUrl,
+            links.id as "urlId",
+            "shortUrl",
             url,
             views
 
             FROM users LEFT JOIN links
             ON
-            links.userId = $1
+            links."userId" = $1
             WHERE users.id = $1
             `, 
             [_id])
